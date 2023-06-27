@@ -1,0 +1,31 @@
+_BASE_: "Base-SynthMap-Polygon.yaml"
+DATASETS:
+  TRAIN: ("synmap_skeleton_ms_train", "synmap_osm_ms_train", "synmap_skeleton_train", "synmap_osm_train", "synthtext22_poly_train", "synthtext12_poly_train",)
+  TEST: ("weinman_test","rumsey_test",)
+MODEL:
+  WEIGHTS: "./weights/synthmap_pretrain/model_final.pth"
+  RESNETS:
+    DEPTH: 50
+  TRANSFORMER:
+    NUM_FEATURE_LEVELS: 4
+    INFERENCE_TH_TEST: 0.3
+    ENC_LAYERS: 6
+    DEC_LAYERS: 6
+    DIM_FEEDFORWARD: 1024
+    HIDDEN_DIM: 256
+    DROPOUT: 0.1
+    NHEADS: 8
+    NUM_QUERIES: 100
+    ENC_N_POINTS: 4
+    DEC_N_POINTS: 4
+SOLVER:
+  STEPS: (360000,)
+  IMS_PER_BATCH: 3
+  BASE_LR: 1e-4
+  LR_BACKBONE: 1e-5
+  WARMUP_ITERS: 0
+  MAX_ITER: 480000
+  CHECKPOINT_PERIOD: 5000
+TEST:
+  EVAL_PERIOD: 5000
+OUTPUT_DIR: ""
