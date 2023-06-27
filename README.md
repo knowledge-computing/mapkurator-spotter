@@ -1,5 +1,4 @@
 # mapkurator-spotter
-Text Spotter in the mapKurator System
 
 This repository contains the implementations of the text spotter, Spotter-v2, in the mapKurator System. Spotter-v2 is built upon [Deformable-DETR](https://arxiv.org/abs/2010.04159) and [TESTR](https://openaccess.thecvf.com/content/CVPR2022/html/Zhang_Text_Spotting_Transformers_CVPR_2022_paper.html).
 
