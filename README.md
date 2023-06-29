@@ -7,7 +7,7 @@ Spotter-v2 adopts a novel feature sampling strategy that samples relevant image 
 Please refer to the [mapKurator documentation](https://knowledge-computing.github.io/mapkurator-doc/#/docs/modules/spot) for details.
 
 
-## model weights 
+## Model weights 
 
 You can donwload [Spotter-v2 (English) model weight](https://drive.google.com/file/d/1agOzYbhZPDVR-nqRc31_S6xu8yR5G1KQ/view?usp=drive_link) and a [model card](https://docs.google.com/document/d/1CfTFbUIiY0jhs-AE8aT2PhtcjDi6skjNopS3v6YE05g/edit?usp=drive_link) .
 
