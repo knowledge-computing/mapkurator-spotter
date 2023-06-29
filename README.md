@@ -20,7 +20,7 @@ Please use different configuration file and weight below :
 | Supported Language      | Config folder  | Model weight | Model card      | 
 |------------|---------------|----------------|------------------------------------| 
 | Russian | [config](https://drive.google.com/drive/folders/11vjSjULrWkct4VyhRy6wtez-spgeE9lx?usp=drive_link) | [weight](https://drive.google.com/file/d/16046LiHoaOZTFmdJWwljk5Djj4RwtbqQ/view?usp=drive_link)  | [model card](https://docs.google.com/document/d/11hKt2QohpPywqFrHv6_FFP-ZlVrFAeYZmzAhiDBpvP4/edit?usp=drive_link)
-| Chinese + Japanese| [config]([https://drive.google.com/drive/folders/11vjSjULrWkct4VyhRy6wtez-spgeE9lx?usp=drive_link](https://drive.google.com/drive/folders/1H-qX_xEosq2eb8hS5PiFhfIUmeaItiKU?usp=drive_link)) | [weight](https://drive.google.com/file/d/1CfWBju-hlEUDsHbYunioZ9DDQOijMXFK/view?usp=drive_link)  | [model card](https://docs.google.com/document/d/1exYTkNmZB0mJ_PTg7AiPlcltqz0b5qyp9STKr8Za884/edit?usp=drive_link)
+| Chinese + Japanese| [config](https://drive.google.com/drive/folders/1H-qX_xEosq2eb8hS5PiFhfIUmeaItiKU?usp=drive_link) | [weight](https://drive.google.com/file/d/1CfWBju-hlEUDsHbYunioZ9DDQOijMXFK/view?usp=drive_link)  | [model card](https://docs.google.com/document/d/1exYTkNmZB0mJ_PTg7AiPlcltqz0b5qyp9STKr8Za884/edit?usp=drive_link)
 | Arabic |[config](https://drive.google.com/drive/folders/1iHcgZQxq_J3bs1_sBZbS0IgLemTJuU3z?usp=drive_link) | [weight](https://drive.google.com/file/d/1nbv8MFn2gUYqiTrdMFKxRfhtFYI4Axdy/view?usp=drive_link)  | [model card](https://docs.google.com/document/d/1z8b8H4M_lua_2UHPMVWUn7bbiVktLTCb3QGRL7zjlA4/edit?usp=drive_link)
 
 ## Acknowledgement
