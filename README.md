@@ -14,7 +14,7 @@ You can donwload [Spotter-v2 (English) model weight](https://drive.google.com/fi
 
 ### Multilingual model weights
 
-mapkurator-spotter also supports multilingual text spotting. 
+mapkurator-spotter supports multilingual text spotting. 
 
 Please use different configuration file and weight below : 
 
