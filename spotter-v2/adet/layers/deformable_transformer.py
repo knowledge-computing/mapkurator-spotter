@@ -367,7 +367,7 @@ class TextDeformableTransformerDecoderLayer(nn.Module):
 
         # text branch - cross attn
         # reference_points_text = reference_points[:, :, None, :, :].repeat(1, 1, tgt_text.shape[2], 1, 1)
-        tgt2_text_cm = self.attn_cross_text(self.with_pos_embed(tgt_text, query_pos_text).flatten(1, 2), reference_points, src, src_spatial_shapes, level_start_index, src_padding_mask).reshape(tgt_text_inter.shape)
+        tgt2_text_cm = self.attn_cross_text(self.with_pos_embed(tgt_text, query_pos_text).flatten(1, 2), reference_points, src, src_spatial_shapes, level_start_index, src_padding_mask).reshape(tgt_text.shape)
         
         tgt_text = tgt_text + self.dropout_cross_text(tgt2_text_cm)
         tgt_text = self.norm_cross_text(tgt_text)
