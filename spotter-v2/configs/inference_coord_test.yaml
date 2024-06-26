@@ -1,0 +1,27 @@
+_BASE_: "base.yaml"
+
+DATASETS:
+  TRAIN: ()
+  TEST: ()
+
+MODEL:
+  BATEXT:
+    VOC_SIZE: 14
+  WEIGHTS: "weights/pretrain_coord_synthtext_map/model_final.pth"
+  RESNETS:
+    DEPTH: 50
+  TRANSFORMER:
+    VOC_SIZE: 14
+    INFERENCE_TH_TEST: 0.3
+    
+INPUT:
+  HFLIP_TRAIN: False
+  MIN_SIZE_TEST: 1600
+  MAX_SIZE_TEST: 1892
+  
+TEST:
+  USE_LEXICON: False
+  LEXICON_TYPE: 1
+    
+OUTPUT_DIR: ""
+

@@ -6,6 +6,7 @@ import os
 import time
 import cv2
 import tqdm
+import logging
 
 from detectron2.data.detection_utils import read_image
 from detectron2.utils.logger import setup_logger
@@ -19,38 +20,54 @@ import pandas as pd
 WINDOW_NAME = "COCO detections"
 
 
+# MAPKURATOR:
+#     MAP_MAPKURATOR_SYSTEM_DIR: '/data/weiweidu/usc-umn-inferlink-ta1/system/mapkurator/mapkurator-system/'
+
+#     MODEL_WEIGHT_PATH: '/data/weiweidu/mapkurator/spotter_v2/PALEJUN/weights/pretrain_en_synthtext_synthmap_tt_ic_mlt/model_final.pth'
+#     MODEL_WEIGHT_PATH: '/data/weiweidu/mapkurator/spotter_v2/PALEJUN/weights/pretrain_coord_synthtext_map/model_final.pth'
+
+#     INPUT_DIR_PATH: '/data/weiweidu/criticalmaas_data/hackathon2/mvtzinc_maps/cropped_images/10639_2_g1000_s500/'
+
+#     TEXT_SPOTTING_MODEL_DIR: '/data/weiweidu/usc-umn-inferlink-ta1/system/mapkurator/spotter_v2/PALEJUN/'
+#     SPOTTER_CONFIG: '/data/weiweidu/usc-umn-inferlink-ta1/system/mapkurator/spotter_v2/PALEJUN/configs/inference_en.yaml'
+#     SPOTTER_CONFIG: '/data/weiweidu/usc-umn-inferlink-ta1/system/mapkurator/spotter_v2/PALEJUN/configs/inference_coord.yaml'
+
+#     OUTPUT_FOLDER: '/data/weiweidu/criticalmaas_data/hackathon2/mapkurator_output/10639_2_g1000_s500/'
+
+# Example: CUDA_VISIBLE_DEVICES=0 python tools/inference.py --config-file configs/inference_coord_tmp.yaml --output_json --input /home/yaoyi/shared/critical-maas/9month/evaluation_corner_crops --output /home/yaoyi/lin00786/work/critical-maas/4-text-spotting-coordinates/spotting-coords/9month_hackathon/spotting_output_evaluation_corner_crops_thre03_spotter_v2/'
+
+# CUDA_VISIBLE_DEVICES=0 python tools/inference.py --config-file configs/inference_en_tmp.yaml --output_json --input /home/yaoyi/shared/critical-maas/9month/evaluation_corner_crops --output /home/yaoyi/lin00786/work/critical-maas/4-text-spotting-coordinates/spotting-coords/9month_hackathon/spotting_output_evaluation_en_thre03_spotter_v2/
+
+
 def setup_cfg(args):
     # load config from file and command-line arguments
     cfg = get_cfg()
     cfg.merge_from_file(args.config_file)
+    #l=args.opts[0].split(' ')
     cfg.merge_from_list(args.opts)
     # Set score_threshold for builtin models
-    cfg.MODEL.RETINANET.SCORE_THRESH_TEST = args.confidence_threshold
-    cfg.MODEL.ROI_HEADS.SCORE_THRESH_TEST = args.confidence_threshold
-    cfg.MODEL.FCOS.INFERENCE_TH_TEST = args.confidence_threshold
-    cfg.MODEL.MEInst.INFERENCE_TH_TEST = args.confidence_threshold
-    cfg.MODEL.PANOPTIC_FPN.COMBINE.INSTANCES_CONFIDENCE_THRESH = args.confidence_threshold
+    # cfg.MODEL.RETINANET.SCORE_THRESH_TEST = args.confidence_threshold
+    # cfg.MODEL.ROI_HEADS.SCORE_THRESH_TEST = args.confidence_threshold
+    # cfg.MODEL.FCOS.INFERENCE_TH_TEST = args.confidence_threshold
+    # cfg.MODEL.MEInst.INFERENCE_TH_TEST = args.confidence_threshold
+    # cfg.MODEL.PANOPTIC_FPN.COMBINE.INSTANCES_CONFIDENCE_THRESH = args.confidence_threshold
     cfg.freeze()
     return cfg
 
 
 def get_parser():
+    print('*** parsing argument ***')
     parser = argparse.ArgumentParser(description="Detectron2 Demo")
     parser.add_argument(
         "--config-file",
-        default="configs/SynMap_Polygon.yaml",
+        default="configs.yaml",
         metavar="FILE",
         help="path to config file",
     )
-    parser.add_argument("--webcam", action="store_true", help="Take inputs from webcam.")
-    parser.add_argument("--video-input", help="Path to video file.")
+    # parser.add_argument("--webcam", action="store_true", help="Take inputs from webcam.")
+    # parser.add_argument("--video-input", help="Path to video file.")
     parser.add_argument("--input", nargs="+", help="A list of space separated input images")
-    parser.add_argument(
-        "--output",
-        help="A file or directory to save output visualizations. "
-        "If not given, will show output in an OpenCV window.",
-    )
-
+    parser.add_argument("--output", help="A file or directory to save json output files")
     parser.add_argument(
         "--confidence-threshold",
         type=float,
@@ -69,7 +86,7 @@ def get_parser():
 
 
 if __name__ == "__main__":
-    
+    print('*****')
     mp.set_start_method("spawn", force=True)
     args = get_parser().parse_args()
     logger = setup_logger()
@@ -78,106 +95,42 @@ if __name__ == "__main__":
     cfg = setup_cfg(args)
 
     demo = VisualizationDemo(cfg)
-
+    logging.info(args.input)
+    
     if args.input:
+        
         if os.path.isdir(args.input[0]):
             args.input = [os.path.join(args.input[0], fname) for fname in os.listdir(args.input[0])]
         elif len(args.input) == 1:
             args.input = glob.glob(os.path.expanduser(args.input[0]))
             assert args.input, "The input path(s) was not found"
+        
+        
         for path in tqdm.tqdm(args.input, disable=not args.output):
             # use PIL, to be consistent with evaluation
             img = read_image(path, format="BGR")
             start_time = time.time()
 
+            assert args.output_json == True
             if args.output_json:
                 # modified code block to save output to json
                 predictions, poly_text_score_dict_list = demo.inference_on_image(img)
 
-                # output json file instead of visualization
                 logger.info(
                     "{}: detected {} instances in {:.2f}s".format(
-                        path, len(predictions["instances"]), time.time() - start_time
-                    )
-                )
+                        path, len(predictions["instances"]), time.time() - start_time))
 
-                if os.path.isdir(args.output):
-                    assert os.path.isdir(args.output), args.output
-                    out_filename = os.path.join(args.output, os.path.basename(path).split('.')[0] + '.json')
-                else:
-                    assert len(args.input) == 1, "Please specify a directory with args.output"
-                    out_filename = args.output
-                #pdb.set_trace()
-
+                # output json file instead of visualization
+                if not os.path.exists(args.output):
+                    os.makedirs(args.output)
+                
+                out_filename = os.path.join(args.output, os.path.basename(path).split('.')[0] + '.json')
                 df = pd.DataFrame(poly_text_score_dict_list)
                 df.to_json(out_filename)
 
-
             else:
-                # this code block is the original process, saves the output to image
-                predictions, visualized_output = demo.run_on_image(img)
-                logger.info(
-                    "{}: detected {} instances in {:.2f}s".format(
-                        path, len(predictions["instances"]), time.time() - start_time
-                    )
-                )
-
-                if args.output:
-                    if os.path.isdir(args.output):
-                        assert os.path.isdir(args.output), args.output
-                        out_filename = os.path.join(args.output, os.path.basename(path))
-                    else:
-                        assert len(args.input) == 1, "Please specify a directory with args.output"
-                        out_filename = args.output
-                    visualized_output.save(out_filename)
-                else:
-                    cv2.imshow(WINDOW_NAME, visualized_output.get_image()[:, :, ::-1])
-                    if cv2.waitKey(0) == 27:
-                        break  # esc to quit
-    elif args.webcam:
-        assert args.input is None, "Cannot have both --input and --webcam!"
-        cam = cv2.VideoCapture(0)
-        for vis in tqdm.tqdm(demo.run_on_video(cam)):
-            cv2.namedWindow(WINDOW_NAME, cv2.WINDOW_NORMAL)
-            cv2.imshow(WINDOW_NAME, vis)
-            if cv2.waitKey(1) == 27:
-                break  # esc to quit
-        cv2.destroyAllWindows()
-    elif args.video_input:
-        video = cv2.VideoCapture(args.video_input)
-        width = int(video.get(cv2.CAP_PROP_FRAME_WIDTH))
-        height = int(video.get(cv2.CAP_PROP_FRAME_HEIGHT))
-        frames_per_second = video.get(cv2.CAP_PROP_FPS)
-        num_frames = int(video.get(cv2.CAP_PROP_FRAME_COUNT))
-        basename = os.path.basename(args.video_input)
-
-        if args.output:
-            if os.path.isdir(args.output):
-                output_fname = os.path.join(args.output, basename)
-                output_fname = os.path.splitext(output_fname)[0] + ".mkv"
-            else:
-                output_fname = args.output
-            assert not os.path.isfile(output_fname), output_fname
-            output_file = cv2.VideoWriter(
-                filename=output_fname,
-                # some installation of opencv may not support x264 (due to its license),
-                # you can try other format (e.g. MPEG)
-                fourcc=cv2.VideoWriter_fourcc(*"x264"),
-                fps=float(frames_per_second),
-                frameSize=(width, height),
-                isColor=True,
-            )
-        assert os.path.isfile(args.video_input)
-        for vis_frame in tqdm.tqdm(demo.run_on_video(video), total=num_frames):
-            if args.output:
-                output_file.write(vis_frame)
-            else:
-                cv2.namedWindow(basename, cv2.WINDOW_NORMAL)
-                cv2.imshow(basename, vis_frame)
-                if cv2.waitKey(1) == 27:
-                    break  # esc to quit
-        video.release()
-        if args.output:
-            output_file.release()
-        else:
-            cv2.destroyAllWindows()
+                print("[WARNING] - Make sure `output_json` == True")
+                
+    else:
+        print("[WARNING] - Input path does not exist")
+                

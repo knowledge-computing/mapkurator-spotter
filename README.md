@@ -1,20 +1,23 @@
 # mapkurator-spotter
 
-This repository contains the implementations of the text spotter, Spotter-v2, in the mapKurator System. Spotter-v2 is built upon [Deformable-DETR](https://arxiv.org/abs/2010.04159) and [TESTR](https://openaccess.thecvf.com/content/CVPR2022/html/Zhang_Text_Spotting_Transformers_CVPR_2022_paper.html).
-
-Spotter-v2 adopts a novel feature sampling strategy that samples relevant image features around the target points for predicting boundary points, which leads to enhanced detection and recognition performance.
+This repository contains the implementations of the text spotter, spotter-v2, in the mapKurator System. Spotter-v2 is built upon [Deformable-DETR](https://arxiv.org/abs/2010.04159) and [TESTR](https://openaccess.thecvf.com/content/CVPR2022/html/Zhang_Text_Spotting_Transformers_CVPR_2022_paper.html).
 
 Please refer to the [mapKurator documentation](https://knowledge-computing.github.io/mapkurator-doc/#/docs/modules/spot) for details.
 
-
 ## Model weights 
+All the model weights can be found [here](https://drive.google.com/drive/folders/1wkQWoqBpqTwOHVxXiemrsKOp4mYqQZ0d?usp=drive_link)
 
-You can donwload [Spotter-v2 (English) model weight](https://drive.google.com/file/d/1agOzYbhZPDVR-nqRc31_S6xu8yR5G1KQ/view?usp=drive_link) and a [model card](https://docs.google.com/document/d/1CfTFbUIiY0jhs-AE8aT2PhtcjDi6skjNopS3v6YE05g/edit?usp=drive_link) .
+### Model weight for Spotting English Text
 
+You can donwload the [model weight](https://drive.google.com/file/d/1agOzYbhZPDVR-nqRc31_S6xu8yR5G1KQ/view?usp=drive_link) and a [model card](https://docs.google.com/document/d/1CfTFbUIiY0jhs-AE8aT2PhtcjDi6skjNopS3v6YE05g/edit?usp=drive_link). The [configuration file](./spotter-v2/configs/inference_en.yaml) for inferencing is under ./configs.
 
-### Multilingual model weights
+### Model weight for Spotting Coordinates
 
-mapkurator-spotter supports multilingual text spotting. Please use different configuration file and weight for running each model. 
+You can donwload the [model weight](https://drive.google.com/file/d/1agOzYbhZPDVR-nqRc31_S6xu8yR5G1KQ/view?usp=drive_link). The [configuration file](./spotter-v2/configs/inference_coord.yaml) for inferencing is under ./configs.
+
+### Model weights for Multilingual Text Spotting
+
+mapkurator-spotter supports multilingual text spotting. Please add the corresponding configuration file and weight to run the model. 
 
 | Supported Language      | Config folder  | Model weight | Model card      | 
 |------------|---------------|----------------|------------------------------------| 
@@ -24,4 +27,4 @@ mapkurator-spotter supports multilingual text spotting. Please use different con
 
 ## Acknowledgement
 
-Thanks to [AdelaiDet](https://github.com/aim-uofa/AdelaiDet) for a standardized training and inference framework, and [Deformable-DETR](https://github.com/fundamentalvision/Deformable-DETR) for the implementation of multi-scale deformable cross-attention, and  [TESTR](https://github.com/mlpc-ucsd/TESTR/tree/main)  for the implementation of Deformable-DETR text spotter for scene images.
+Thanks to [AdelaiDet](https://github.com/aim-uofa/AdelaiDet) for a standardized training and inference framework, and [Deformable-DETR](https://github.com/fundamentalvision/Deformable-DETR) for the implementation of multi-scale deformable cross-attention, and  [TESTR](https://github.com/mlpc-ucsd/TESTR/tree/main) for the implementation of Deformable-DETR text spotter for scene images.
