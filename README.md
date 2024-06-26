@@ -9,11 +9,11 @@ All the model weights can be found [here](https://drive.google.com/drive/folders
 
 ### Model weight for Spotting English Text
 
-You can donwload the [model weight](https://drive.google.com/file/d/1agOzYbhZPDVR-nqRc31_S6xu8yR5G1KQ/view?usp=drive_link) and a [model card](https://docs.google.com/document/d/1CfTFbUIiY0jhs-AE8aT2PhtcjDi6skjNopS3v6YE05g/edit?usp=drive_link). The [configuration file](./spotter-v2/configs/inference_en.yaml) for inferencing is under ./configs.
+You can donwload the [model weight](https://drive.google.com/file/d/1agOzYbhZPDVR-nqRc31_S6xu8yR5G1KQ/view?usp=drive_link) and a [model card](https://docs.google.com/document/d/1CfTFbUIiY0jhs-AE8aT2PhtcjDi6skjNopS3v6YE05g/edit?usp=drive_link). The [configuration file](./spotter-v2/configs/inference_en_test.yaml) for inferencing is under ./configs.
 
 ### Model weight for Spotting Coordinates
 
-You can donwload the [model weight](https://drive.google.com/file/d/1agOzYbhZPDVR-nqRc31_S6xu8yR5G1KQ/view?usp=drive_link). The [configuration file](./spotter-v2/configs/inference_coord.yaml) for inferencing is under ./configs.
+You can donwload the [model weight](https://drive.google.com/file/d/12_tc3zOmzLPUU41g_fbPVMkvRkjbSsRf/view?usp=drive_link). The [configuration file](./spotter-v2/configs/inference_coord_test.yaml) for inferencing is under ./configs.
 
 ### Model weights for Multilingual Text Spotting
 
